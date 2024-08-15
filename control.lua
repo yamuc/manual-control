@@ -17,26 +17,34 @@ local function onTick()
   end
 end
 
+script.on_event(defines.events.on_gui_opened, function(event)
+  if event.gui_type == defines.gui_type.entity and event.entity.type == "yc-button" then
+      local player = game.get_player(event.player_index)
+      local custom_frame = player.gui.screen.add{type="frame", caption="Custom Inserter Interface"}
+      player.opened = custom_frame
+  end
+end)
+
 
 -- Adapted from the pushbutton mod 
 local function onKey(event)
   local p = game.players[event.player_index]
   local ent = p.selected
   if ent and ent.valid and p.can_reach_entity(ent) then
-    if ent.name == "button" then
-      game.print("Button Pressed")
+    if ent.name == "yc-button" then
+      --game.print("Button Pressed")
       local control = ent.get_or_create_control_behavior()
       control.enabled=true
       if not global.active_buttons then global.active_buttons = {} end
       global.active_buttons[ent.unit_number] = {control, 120} -- TODO: Replace 1 with a call to find delay from gui
 
-    elseif ent.name == "passthrough-button" then
+    elseif ent.name == "yc-passthrough-button" then
       local control = ent.get_or_create_control_behavior()
       control.enabled=true
       if not global.active_buttons then global.active_buttons = {} end
       global.active_buttons[ent.unit_number] = {control, 20} -- TODO: Replace 1 with a call to find delay from gui
 
-    elseif ent.name == "switch" then
+    elseif ent.name == "yc-switch" then
       local control = ent.get_or_create_control_behavior()
       control.enabled = not control.enabled
     end
@@ -44,7 +52,7 @@ local function onKey(event)
 end
 
 local function onBuilt(entity)  -- turn off when placed
-  if entity.name == "button" then
+  if entity.name == "yc-button" then
     local control = entity.get_or_create_control_behavior()
     control.enabled=false
   end
@@ -52,7 +60,7 @@ end
 
 local function onPaste(event) -- turn off when pasted into
   local button = event.destination
-  if button.name == "button" then
+  if button.name == "yc-button" then
     local control = button.get_or_create_control_behavior()
     control.enabled=false
     --TODO make this copy the length from the ui setting
@@ -61,10 +69,10 @@ end
 
 script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_entity_settings_pasted,onPaste)
-script.on_event("interact-key", onKey)
+script.on_event("yc-interact-key", onKey)
 
 local filters = {
-  {filter="name",name="button"}
+  {filter="name",name="yc-button"}
 }
 script.on_event(defines.events.on_built_entity, function(event) onBuilt(event.created_entity) end, filters)
 script.on_event(defines.events.on_robot_built_entity, function(event) onBuilt(event.created_entity) end, filters)

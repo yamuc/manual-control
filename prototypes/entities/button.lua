@@ -1,6 +1,6 @@
 local p = table.deepcopy(data.raw["constant-combinator"]["constant-combinator"])
-p.name = "button"
-p.minable.result = "button"
+p.name = "yc-button"
+p.minable.result = "yc-button"
 
 p.icon = "__manual-control__/graphics/button/button-icon.png"
 p.icon_size = 32

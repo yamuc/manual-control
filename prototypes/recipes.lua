@@ -1,7 +1,7 @@
 data:extend{
   {
     type = "recipe",
-    name = "button",
+    name = "yc-button",
     enabled = false,
     ingredients =
     {
@@ -9,11 +9,11 @@ data:extend{
       {"electronic-circuit", 1},
       {"advanced-circuit", 1},
     },
-    result="button",
+    result="yc-button",
   },
   {
     type = "recipe",
-    name = "switch",
+    name = "yc-switch",
     enabled = false,
     ingredients =
     {
@@ -22,11 +22,11 @@ data:extend{
       {"advanced-circuit", 1},
       {"iron-stick", 1},
     },
-    result="switch",
+    result="yc-switch",
   },
   {
     type = "recipe",
-    name = "passthrough-button",
+    name = "yc-passthrough-button",
     enabled = false,
     ingredients =
     {
@@ -34,11 +34,11 @@ data:extend{
       {"electronic-circuit", 2},
       {"advanced-circuit", 2},
     },
-    result="passthrough-button",
+    result="yc-passthrough-button",
   },
   {
     type = "recipe",
-    name = "passthrough-switch",
+    name = "yc-passthrough-switch",
     enabled = false,
     ingredients =
     {
@@ -47,6 +47,6 @@ data:extend{
       {"advanced-circuit", 2},
       {"iron-stick", 1}
     },
-    result="passthrough-switch",
+    result="yc-passthrough-switch",
   },
 }

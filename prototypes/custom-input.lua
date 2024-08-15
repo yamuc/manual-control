@@ -1,7 +1,7 @@
 data:extend({
   {
     type = "custom-input",
-    name = "interact-key",
+    name = "yc-interact-key",
     key_sequence = "F",
   },
 })

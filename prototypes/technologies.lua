@@ -4,19 +4,19 @@ if data.raw.technology["circuit-network"] then
   local circuitTechs = {
     {
       type = "unlock-recipe",
-      recipe = "button"
+      recipe = "yc-button"
     },
     {
       type = "unlock-recipe",
-      recipe = "switch"
+      recipe = "yc-switch"
     },
     {
       type = "unlock-recipe",
-      recipe = "passthrough-button"
+      recipe = "yc-passthrough-button"
     },
     {
       type = "unlock-recipe",
-      recipe = "passthrough-switch"
+      recipe = "yc-passthrough-switch"
     },
   }
 
