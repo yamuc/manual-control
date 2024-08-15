@@ -1,0 +1,10 @@
+Find way to print to in-game console
+
+Button turn-off script does not work
+ - doesn't seem to see anything in the activated buttons list
+ - finding a way to print to the in-game console would speed this up quite a bit
+
+Creation of the relative window on the button to set the "hold amount"
+
+Change passthroughs to a combinatorPrototype with decider graphics/settings on it
+ - will probably need to make a custom ui
