@@ -2,6 +2,8 @@ local function onTick()
   --button processing
 end
 
+--[[
+
 local function onKey(event)
   local p = game.players[event.player_index]
   local ent = p.selected
@@ -37,13 +39,14 @@ end
 
 script.on_event(defines.events.on_tick, onTick)
 script.on_event(defines.events.on_entity_settings_pasted,onPaste)
-script.on_event("pushbutton-key", onKey)
+script.on_event("interact-key", onKey)
 
 local filters = {
-  {filter="name",name="pushbutton"}
+  {filter="name",name="button"}
 }
 script.on_event(defines.events.on_built_entity, function(event) onBuilt(event.created_entity) end, filters)
 script.on_event(defines.events.on_robot_built_entity, function(event) onBuilt(event.created_entity) end, filters)
 script.on_event(defines.events.script_raised_built, function(event) onBuilt(event.entity) end)
 script.on_event(defines.events.script_raised_revive, function(event) onBuilt(event.entity) end)
 script.on_event(defines.events.on_entity_cloned, function(event) onBuilt(event.destination) end)
+]]
