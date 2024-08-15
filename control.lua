@@ -1,10 +1,8 @@
 local function onTick()
   --button processing
-  --game.print(serpent.block(global.active_buttons))
   if global.active_buttons then
     for i, control in pairs(global.active_buttons) do
-      --game.print("current button id: " .. i  .. serpent.block(control))
-      global.active_buttons[i][2] = global.active_buttons[i][2] - 1
+      global.active_buttons[i][2] = global.active_buttons[i][2] - 1 --decrement timer
       --game.print("New timer on id " .. i .. " is: " .. global.active_buttons[i][2])
 
       if global.active_buttons[i][2] <= 0 then --if the timer is up
@@ -18,8 +16,10 @@ local function onTick()
 end
 
 script.on_event(defines.events.on_gui_opened, function(event)
-  if event.gui_type == defines.gui_type.entity and event.entity.type == "yc-button" then
+  if event.gui_type == defines.gui_type.entity and event.entity.name == "yc-button" then
+
       local player = game.get_player(event.player_index)
+      
       local custom_frame = player.gui.screen.add{type="frame", caption="Custom Inserter Interface"}
       player.opened = custom_frame
   end
@@ -84,7 +84,7 @@ script.on_event(defines.events.on_entity_cloned, function(event) onBuilt(event.d
 
 
 
-
+-- taken from hookenz' answer on https://stackoverflow.com/questions/9168058/how-to-dump-a-table-to-console
 function dump(o)
   if type(o) == 'table' then
      local s = '{ '
