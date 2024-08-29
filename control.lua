@@ -15,15 +15,7 @@ local function onTick()
   end
 end
 
-script.on_event(defines.events.on_gui_opened, function(event)
-  if event.gui_type == defines.gui_type.entity and event.entity.name == "yc-button" then
 
-      local player = game.get_player(event.player_index)
-      
-      local custom_frame = player.gui.screen.add{type="frame", caption="Custom Inserter Interface"}
-      player.opened = custom_frame
-  end
-end)
 
 
 -- Adapted from the pushbutton mod 
@@ -36,13 +28,13 @@ local function onKey(event)
       local control = ent.get_or_create_control_behavior()
       control.enabled=true
       if not global.active_buttons then global.active_buttons = {} end
-      global.active_buttons[ent.unit_number] = {control, 120} -- TODO: Replace 1 with a call to find delay from gui
+      global.active_buttons[ent.unit_number] = {control, global.button_delays[ent.unit_number]} -- TODO: Replace 1 with a call to find delay from gui
 
     elseif ent.name == "yc-passthrough-button" then
       local control = ent.get_or_create_control_behavior()
       control.enabled=true
       if not global.active_buttons then global.active_buttons = {} end
-      global.active_buttons[ent.unit_number] = {control, 20} -- TODO: Replace 1 with a call to find delay from gui
+      global.active_buttons[ent.unit_number] = {control, global.button_delays[ent.unit_number]} -- TODO: Replace 1 with a call to find delay from gui
 
     elseif ent.name == "yc-switch" then
       local control = ent.get_or_create_control_behavior()
@@ -55,6 +47,8 @@ local function onBuilt(entity)  -- turn off when placed
   if entity.name == "yc-button" then
     local control = entity.get_or_create_control_behavior()
     control.enabled=false
+    if not global.button_delays then global.button_delays = {} end
+    global.button_delays[entity.unit_number] = 1
   end
 end
 
@@ -83,6 +77,53 @@ script.on_event(defines.events.on_entity_cloned, function(event) onBuilt(event.d
 
 
 
+
+
+
+local function addButtonGUI(player)
+  local anchor = {gui = defines.relative_gui_type.constant_combinator_gui, position = defines.relative_gui_position.right, names = buttonNames}
+  local frame = player.gui.relative.add{name="yc-buttonGUI", type="frame", direction="vertical", anchor = anchor}
+
+  local titleBar = frame.add{type="flow", direction="horizontal"}
+    titleBar.add{type="label", caption="Button Delay", style="frame_title"}
+
+  local contentFrame = frame.add{type="frame", direction="horizontal", style="inside_shallow_frame_with_padding"}
+    contentFrame.add{name = "yc-buttonSlider", type="slider", minimum_value = 0, maximum_value = 120, value = 1, style = "other_settings_slider"}
+    contentFrame.add{name = "yc-buttonSlider-txt", type="textfield", numeric=true, text = 1, clear_and_focus_on_right_click = true, lose_focus_on_confirm = true, style = "slider_value_textfield"}
+
+end
+
+local function destroyButtonGUI(event)
+  local buttonNames = {"yc-button", "yc-passthrough-button"}
+  if event.gui_type == defines.gui_type.entity and listContains(buttonNames, event.entity.name) then
+    local gui = game.get_player(event.player_index).gui.relative.children_names
+    game.print(dump(gui))
+  end
+end
+
+local function openButtonGUI(event)
+  local buttonNames = {"yc-button", "yc-passthrough-button"}
+  if event.gui_type == defines.gui_type.entity and listContains(buttonNames, event.entity.name) then
+
+    local player = game.get_player(event.player_index)
+
+    if not listContains(player.gui.relative.children_names, "yc-buttonGUI") then addButtonGUI(player) end
+
+
+  end
+end
+
+script.on_event(defines.events.on_gui_opened, openButtonGUI)
+script.on_event(defines.events.on_gui_closed, destroyButtonGUI)
+
+
+
+function listContains(list, value)
+  for _, v in pairs(list) do
+    if v == value then return true end
+  end
+  return false
+end
 
 -- taken from hookenz' answer on https://stackoverflow.com/questions/9168058/how-to-dump-a-table-to-console
 function dump(o)
